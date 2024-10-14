@@ -1,3 +1,4 @@
+.ORIG x300
 AND R2, R2, x0
 ADD R2, R2, x4
 ADD R2, R2, R2
@@ -13,3 +14,4 @@ NOT R0, R0
 NOT R2, R2
 AND R2, R0, R2
 ADD R3, R2, R3
+.END
