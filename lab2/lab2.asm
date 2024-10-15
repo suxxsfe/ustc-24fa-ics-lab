@@ -20,7 +20,7 @@ ADD R5, R5, R5 ;3100
 LDR R1, R5, x0
 AND R0, R0, x0
 
-LOOP:
+LOOP
     ADD R2, R1, x-1
     BRz END
     AND R3, R1, x1
@@ -29,23 +29,23 @@ LOOP:
         ADD R2, R2, R1
         ADD R1, R2, x1
     JSR CONTINUE
-    EVEN:              ; even case
+    EVEN               ; even case
         AND R2, R2, x0
         ADD R3, R2, x2
         ADD R4, R2, x1
-        EVEN_LOOP:
+        EVEN_LOOP
             AND R6, R1, R3
             BRz ZERO_BIT    ; this bit is 1
                 ADD R2, R2, R4
-            ZERO_BIT:
+            ZERO_BIT
             ADD R4, R4, R4
             ADD R3, R3, R3
         BRnp EVEN_LOOP
         ADD R1, R2, x0
-    CONTINUE:
+    CONTINUE
     ADD R0, R0, x1
 JSR LOOP
-END:
+END
 
 STR R0, R5, x1
 
