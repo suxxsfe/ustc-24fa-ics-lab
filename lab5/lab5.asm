@@ -53,7 +53,7 @@ END_LOOP_SEQ
 LD R5, ANSWER
 STR R2, R5, x0
 LD R5, RESULT
-LOOP_RESULT
+LOOP_RESULT ;    output the result
     LDR R0, R5, x0
     ADD R0, R0, x1
     BRz END_LOOP_RESULT
