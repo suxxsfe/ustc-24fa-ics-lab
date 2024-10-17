@@ -6,9 +6,9 @@
 ; R5 address
 ; R6 -48 xD7CB
 
-LDI R6, COMPLEMENT
+LD R6, COMPLEMENT
 
-LD R5, WELCOM
+LDI R5, WELCOM
 LOOP_WELCOM     ; output welcom message
     LDR R0, R5, x0
     BRz END_LOOP_WELCOM
@@ -39,7 +39,7 @@ LOOP_SEQ
     BRp END_LOOP_SEQ
     ADD R0, R0, x1
     
-    LD R5, TRANS
+    LDI R5, TRANS
     ADD R5, R5, R1
     ADD R5, R5, R1
     ADD R5, R5, R1
@@ -50,9 +50,9 @@ LOOP_SEQ
 END_LOOP_SEQ
 
 
-LD R5, ANSWER
+LDI R5, ANSWER
 STR R2, R5, x0
-LD R5, RESULT
+LDI R5, RESULT
 LOOP_RESULT ;    output the result
     LDR R0, R5, x0
     ADD R0, R0, x1
@@ -64,7 +64,9 @@ LOOP_RESULT ;    output the result
 END_LOOP_RESULT
 
 TRAP x25
+.END
 
+.ORIG x3050
 COMPLEMENT
     .FILL xD7CB
     
