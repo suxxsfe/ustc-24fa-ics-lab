@@ -45,7 +45,7 @@ LOOP_SEQ
     ADD R5, R5, R1
     ADD R5, R5, R0; new state = trans[state*3+number]
     LDR R1, R5, x0
-    LDR R3, R5, x2
+    LDR R3, R5, x2; answer = trans[state*3+2]
     ADD R2, R2, R3
 END_LOOP_SEQ
 
