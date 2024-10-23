@@ -32,8 +32,15 @@ LOOP_SEQ
     ADD R5, R5, R1
     ADD R5, R5, R0; new state = trans[state*3+number]
     LDR R1, R5, x0
+    
+    LEA R5, TRANS
+    ADD R5, R5, R1
+    ADD R5, R5, R1
+    ADD R5, R5, R1
     LDR R3, R5, x2; answer = trans[state*3+2]
     ADD R2, R2, R3
+    
+    JSR LOOP_SEQ
 END_LOOP_SEQ
 
 
@@ -51,9 +58,7 @@ LOOP_RESULT ;    output the result
 END_LOOP_RESULT
 
 TRAP x25
-.END
 
-.ORIG x3050
 COMPLEMENT
     .FILL xFFD0
     
@@ -161,5 +166,4 @@ TRANS
     .FILL x0
     .FILL x3
     .FILL x1
-
 .END
