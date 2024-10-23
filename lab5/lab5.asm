@@ -8,7 +8,7 @@
 
 LD R6, COMPLEMENT
 
-LDI R5, WELCOM
+LEA R5, WELCOM
 LOOP_WELCOM     ; output welcom message
     LDR R0, R5, x0
     BRz END_LOOP_WELCOM
@@ -16,19 +16,6 @@ LOOP_WELCOM     ; output welcom message
     ADD R5, R5, x1
     JSR LOOP_WELCOM
 END_LOOP_WELCOM
-
-AND R3, R3, x0
-LOOP_NUMBER
-    TRAP x20
-    ADD R0, R0, R6
-    BRn END_LOOP_NUMBER
-    ADD R4, R3, x0
-    ADD R4, R4, R4
-    ADD R3, R4, R4
-    ADD R3, R3, R3
-    ADD R3, R3, R4 ; R3 *= 10
-    ADD R3, R3, R0
-END_LOOP_NUMBER
 
 AND R1, R1, x0
 AND R2, R2, x0
@@ -39,7 +26,7 @@ LOOP_SEQ
     BRp END_LOOP_SEQ
     ADD R0, R0, x1
     
-    LDI R5, TRANS
+    LEA R5, TRANS
     ADD R5, R5, R1
     ADD R5, R5, R1
     ADD R5, R5, R1
@@ -50,9 +37,9 @@ LOOP_SEQ
 END_LOOP_SEQ
 
 
-LDI R5, ANSWER
+LEA R5, ANSWER
 STR R2, R5, x0
-LDI R5, RESULT
+LEA R5, RESULT
 LOOP_RESULT ;    output the result
     LDR R0, R5, x0
     ADD R0, R0, x1
