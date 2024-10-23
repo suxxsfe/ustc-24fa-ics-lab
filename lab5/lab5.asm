@@ -4,7 +4,7 @@
 ; R2 answer
 ; R3 length of seq
 ; R5 address
-; R6 -48 xD7CB
+; R6 -48 xFFD0
 
 LD R6, COMPLEMENT
 
@@ -55,7 +55,7 @@ TRAP x25
 
 .ORIG x3050
 COMPLEMENT
-    .FILL xD7CB
+    .FILL xFFD0
     
 WELCOM
     .FILL #83
