@@ -113,9 +113,6 @@ TRAP x25
 STACK
     .FILL x6000
 
-COMPLEMENT
-    .FILL xFFD0
-    
 WELCOM
     .FILL #83
     .FILL #68
