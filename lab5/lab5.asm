@@ -2,11 +2,58 @@
 ; R0 input/output
 ; R1 state
 ; R2 answer
-; R3 length of seq
 ; R5 address
-; R6 -48 xFFD0
 
-LD R6, COMPLEMENT
+JSR BEGIN
+
+; output n
+; R2 : n
+; no return value
+OUTPUT_NUMBER
+    STR R1, R6, x0
+    STR R2, R6, x1
+    STR R3, R6, x2
+    STR R7, R6, x3
+    ADD R6, R6, x4
+
+    AND R3, R3, x0
+    ADD R3, R3, xf
+    ADD R3, R3, x1; R3 = 16
+    
+    ADD R2, R2, #-10
+    BRzp GE_10
+        ADD R2, R2, #10
+        ADD R0, R2, R3
+        ADD R0, R0, R3
+        ADD R0, R0, R3; R0 = R2+3*R3 = R2+48
+        TRAP x21
+        JSR END_GE_10
+    GE_10
+        ADD R2, R2, #10
+        ADD R1, R2, x0 ; R1 / 10 = R2 .... R1
+        AND R2, R2, x0
+        LOOP_DIV_10
+            ADD R1, R1, #-10
+            BRn END_LOOP_DIV_10
+            ADD R2, R2, x1
+            JSR LOOP_DIV_10
+        END_LOOP_DIV_10
+        ADD R1, R1, #10
+        JSR OUTPUT_NUMBER
+        ADD R0, R1, R3
+        ADD R0, R0, R3
+        ADD R0, R0, R3; R0 = R1+3*R3 = R1+48
+        TRAP x21
+    END_GE_10
+    
+    LDR R7, R6, x-1
+    LDR R3, R6, x-2
+    LDR R2, R6, x-3
+    LDR R1, R6, x-4
+    ADD R6, R6, x-4
+    RET
+
+BEGIN
 
 LEA R5, WELCOM
 LOOP_WELCOM     ; output welcom message
@@ -21,9 +68,9 @@ AND R1, R1, x0
 AND R2, R2, x0
 LOOP_SEQ
     TRAP x20
-    ADD R0, R0, R6
-    ADD R0, R0, x-1; 2' complement of 49(ascii 1)
-    BRp END_LOOP_SEQ
+    AND R0, R0, xf ; R0 := R0-48
+    ADD R0, R0, x-1; R0 := R0-49 (asiic '1')
+    BRp END_LOOP_SEQ; check if R0 \in [0,1]
     ADD R0, R0, x1
     
     LEA R5, TRANS
@@ -44,20 +91,27 @@ LOOP_SEQ
 END_LOOP_SEQ
 
 
-LEA R5, ANSWER
-STR R2, R5, x0
 LEA R5, RESULT
+LD R6, STACK
 LOOP_RESULT ;    output the result
     LDR R0, R5, x0
     ADD R0, R0, x1
-    BRz END_LOOP_RESULT
+    BRz END_LOOP_RESULT ; if R0 = -1, end the loop
     ADD R0, R0, x-1
-    TRAP x21
+    BRz OUTPUT_ANSWER
+        TRAP x21
+        JSR END_OUTPUT_ANSWER
+    OUTPUT_ANSWER       ; output a number (R2)
+        JSR OUTPUT_NUMBER
+    END_OUTPUT_ANSWER
     ADD R5, R5, x1
     JSR LOOP_RESULT
 END_LOOP_RESULT
 
 TRAP x25
+
+STACK
+    .FILL x6000
 
 COMPLEMENT
     .FILL xFFD0
@@ -101,6 +155,7 @@ WELCOM
     .FILL #101
     .FILL #114
     .FILL #58
+    .FILL #13 ; enter
     .FILL #0
     
 RESULT
@@ -118,8 +173,7 @@ RESULT
     .FILL #115  ; s
     .FILL #41   ; )
     .FILL #32   ; (空格)
-
-ANSWER    
+    
     .FILL #0    ; answer
     
     .FILL #32   ; (空格)
@@ -144,6 +198,7 @@ ANSWER
     .FILL #99   ; c
     .FILL #101  ; e
     .FILL #33   ; !
+    .FILL #13   ; enter
     .FILL #-1
 
 TRANS
