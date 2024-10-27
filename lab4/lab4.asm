@@ -55,7 +55,7 @@ GET_EARN ; R0 n, R1 answer
         ADD R1, R5, R5
         JSR IS_ZERO_EARN_END
     IS_ZERO_EARN
-        ADD R1, R1, x5
+        ADD R1, R1, x6
     IS_ZERO_EARN_END
         
     ADD R5, R1, x0
