@@ -113,7 +113,7 @@ GET_SPEND ; R0 n, R1 answer, R2 Earn(n-1), R3 Spend(n-1)
     ADD R6, R6, x-5
     RET
 
-BEGIN:
+BEGIN
     LDI R0, INPUT
     LD R6, STACK
     
